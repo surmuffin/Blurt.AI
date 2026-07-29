@@ -19,6 +19,20 @@
     pointer-events: none !important;
   }
 </style>
+  <script>
+  // Force delete the AI element from the page DOM entirely
+  document.addEventListener("DOMContentLoaded", () => {
+    const observer = new MutationObserver(() => {
+      const panel = document.getElementById("ai-panel");
+      if (panel) panel.remove();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    
+    // Immediate attempt
+    const panel = document.getElementById("ai-panel");
+    if (panel) panel.remove();
+  });
+</script>
     /* ════════════════════════════════════════════════════════
        BASE RESET & TOKENS
     ════════════════════════════════════════════════════════ */
