@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
-<head>
-  <base href="https://d16ilfvy4mv02r.cloudfront.net/workspaces/Is5zP24NzttaPXSRNCF4WPifzrxumijZ/08d6fb0c-d32c-46d0-bfc8-dcc753d4374e/files/">
+<head><base href="https://d16ilfvy4mv02r.cloudfront.net/workspaces/Is5zP24NzttaPXSRNCF4WPifzrxumijZ/08d6fb0c-d32c-46d0-bfc8-dcc753d4374e/files/">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blurt. — Active Recall</title>
@@ -12,7 +11,7 @@
        BASE RESET & TOKENS
     ════════════════════════════════════════════════════════ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-</style>
+
     :root {
       --bg:         #121214;
       --surface:    #1C1C1F;
@@ -280,21 +279,168 @@
     input[type=range] { -webkit-appearance:none; width:100%; height:4px; border-radius:99px; background:var(--border); outline:none; cursor:pointer; }
     input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:var(--accent); cursor:pointer; transition:transform 0.2s ease; }
     input[type=range]::-webkit-slider-thumb:hover { transform:scale(1.2); }
-/* AI Panel Hidden */
-#ai-panel,
-#ai-panel.visible,
-.ai-header,
-.ai-error,
-.ai-empty,
-[class*="ai-"] {
-  display: none !important;
-  visibility: hidden !important;
-  height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-</style>
-   
+
+    /* ════════════════════════════════════════════════════════
+       AI PERFORMANCE ANALYSIS PANEL  (Grok-powered)
+    ════════════════════════════════════════════════════════ */
+    #ai-panel { display:none; }
+    #ai-panel.visible { display:block; animation:blurtFadeIn 0.5s ease-out both; animation-delay:0.15s; }
+
+    .ai-header {
+      display:flex; align-items:flex-start; justify-content:space-between; gap:18px;
+      margin-bottom:24px; flex-wrap:wrap;
+    }
+    .ai-header-left { display:flex; gap:12px; align-items:flex-start; }
+    .ai-spark {
+      width:38px; height:38px; border-radius:10px; flex-shrink:0;
+      background:linear-gradient(135deg, rgba(184,181,255,0.18), rgba(163,177,155,0.14));
+      border:1px solid rgba(184,181,255,0.25);
+      display:flex; align-items:center; justify-content:center;
+      color:var(--accent);
+      animation:softBlink 3s ease-in-out infinite;
+    }
+    .ai-title-block { padding-top:2px; }
+    .ai-eyebrow { font-size:0.65rem; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; display:flex; align-items:center; gap:8px; }
+    .ai-eyebrow .dot { width:5px; height:5px; border-radius:50%; background:var(--accent); }
+    .ai-h2 { font-size:1.1rem; font-weight:600; color:var(--text); letter-spacing:-0.02em; line-height:1.25; }
+    .ai-summary { font-size:0.83rem; color:var(--muted); font-weight:300; line-height:1.6; margin-top:8px; max-width:540px; }
+
+    .ai-grade-pill {
+      display:inline-flex; align-items:baseline; gap:6px;
+      padding:10px 18px; border-radius:12px; flex-shrink:0;
+      background:var(--accent); color:#121214; font-weight:700;
+      letter-spacing:-0.02em;
+      box-shadow:0 0 24px rgba(184,181,255,0.25);
+      animation:successPop 0.5s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    [data-theme="light"] .ai-grade-pill { color:#fff; }
+    .ai-grade-letter { font-size:2rem; line-height:1; font-family:'Roboto Mono',monospace; }
+    .ai-grade-label { font-size:0.65rem; font-family:'Roboto Mono',monospace; text-transform:uppercase; letter-spacing:0.12em; opacity:0.75; }
+
+    .ai-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
+    .ai-section {
+      border-radius:14px; padding:20px 22px;
+      border:1px solid var(--border);
+      background:var(--bg);
+      position:relative;
+      animation:blurtFadeIn 0.45s ease-out both;
+    }
+    .ai-section[data-kind="nailed"] { background:linear-gradient(180deg, var(--sage-dim) 0%, var(--bg) 60%); border-color:rgba(163,177,155,0.25); }
+    .ai-section[data-kind="gaps"]   { background:linear-gradient(180deg, var(--amber-dim) 0%, var(--bg) 60%); border-color:rgba(229,180,126,0.25); }
+
+    .ai-section-head { display:flex; align-items:center; gap:8px; margin-bottom:14px; }
+    .ai-section-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+    .ai-section[data-kind="nailed"] .ai-section-dot { background:var(--sage); box-shadow:0 0 8px rgba(163,177,155,0.5); }
+    .ai-section[data-kind="gaps"]   .ai-section-dot { background:var(--amber); box-shadow:0 0 8px rgba(229,180,126,0.5); }
+    .ai-section-title {
+      font-size:0.68rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase;
+      font-family:'Roboto Mono',monospace;
+    }
+    .ai-section[data-kind="nailed"] .ai-section-title { color:var(--sage); }
+    .ai-section[data-kind="gaps"]   .ai-section-title { color:var(--amber); }
+    .ai-section-count { margin-left:auto; font-size:0.68rem; color:var(--muted); font-family:'Roboto Mono',monospace; }
+
+    .ai-list { display:flex; flex-direction:column; gap:10px; }
+    .ai-item {
+      display:flex; gap:11px; padding:10px 12px;
+      border-radius:10px; background:rgba(255,255,255,0.025);
+      transition:background 0.2s ease;
+    }
+    [data-theme="light"] .ai-item { background:rgba(0,0,0,0.025); }
+    .ai-item:hover { background:rgba(255,255,255,0.04); }
+    [data-theme="light"] .ai-item:hover { background:rgba(0,0,0,0.04); }
+
+    .ai-bullet {
+      flex-shrink:0; width:22px; height:22px; border-radius:6px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:0.78rem; font-weight:600;
+    }
+    .ai-section[data-kind="nailed"] .ai-bullet { background:var(--sage-dim); color:var(--sage); border:1px solid rgba(163,177,155,0.3); }
+    .ai-section[data-kind="gaps"] .ai-bullet { background:var(--amber-dim); color:var(--amber); border:1px solid rgba(229,180,126,0.3); }
+
+    .ai-item-body { flex:1; min-width:0; }
+    .ai-concept {
+      font-size:0.85rem; font-weight:500; color:var(--text);
+      letter-spacing:-0.01em; margin-bottom:2px; line-height:1.4;
+    }
+    .ai-note {
+      font-size:0.77rem; color:var(--muted); font-weight:300;
+      line-height:1.55;
+    }
+
+    /* Full-width tip section */
+    .ai-tip-wrap {
+      grid-column:1 / -1;
+      margin-top:14px;
+      border-radius:14px;
+      border:1px solid rgba(184,181,255,0.22);
+      background:linear-gradient(135deg, var(--violet-dim) 0%, var(--bg) 70%);
+      padding:18px 22px;
+      display:flex; gap:14px; align-items:flex-start;
+      animation:blurtFadeIn 0.5s ease-out both;
+      animation-delay:0.1s;
+    }
+    .ai-tip-icon {
+      width:36px; height:36px; border-radius:10px;
+      background:rgba(184,181,255,0.18); border:1px solid rgba(184,181,255,0.3);
+      display:flex; align-items:center; justify-content:center;
+      color:var(--accent); flex-shrink:0;
+    }
+    .ai-tip-body { flex:1; min-width:0; padding-top:2px; }
+    .ai-tip-eyebrow { font-size:0.62rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); font-family:'Roboto Mono',monospace; margin-bottom:6px; }
+    .ai-tip-text { font-size:0.85rem; color:var(--text); font-weight:400; line-height:1.65; letter-spacing:-0.005em; }
+
+    .ai-credits { margin-top:18px; padding-top:14px; border-top:1px solid var(--border); display:flex; align-items:center; gap:8px; font-size:0.7rem; color:var(--muted); font-family:'Roboto Mono',monospace; letter-spacing:0.04em; }
+    .ai-credits-dot { width:4px; height:4px; border-radius:50%; background:var(--accent); opacity:0.7; animation:aiPulse 2s ease-in-out infinite; }
+
+    /* Skeleton state */
+    .ai-skel-block { margin-top:6px; }
+    .ai-skel-line {
+      height:12px; border-radius:5px; width:100%; margin-bottom:8px;
+      background:linear-gradient(90deg, var(--surface2) 0%, var(--border2) 50%, var(--surface2) 100%);
+      background-size:200% 100%;
+      animation:glint 1.6s ease-in-out infinite;
+    }
+    .ai-skel-line.short { width:30%; }
+    .ai-skel-line.mid { width:55%; }
+
+    .ai-skel-section {
+      border-radius:14px; padding:20px 22px;
+      border:1px solid var(--border); background:var(--bg);
+      margin-bottom:14px;
+    }
+    .ai-skel-head {
+      display:flex; align-items:center; gap:8px; margin-bottom:14px;
+    }
+    .ai-skel-head-dot { width:18px; height:18px; border-radius:6px; background:var(--surface2); }
+    .ai-skel-head-line { height:10px; width:120px; border-radius:4px; background:var(--surface2); animation:glint 1.6s ease-in-out infinite; background-size:200% 100%; }
+
+    /* Error state */
+    .ai-error {
+      padding:28px 24px; text-align:left;
+      border-radius:14px;
+      border:1px solid rgba(230,138,138,0.22);
+      background:linear-gradient(180deg, var(--rose-dim) 0%, var(--bg) 60%);
+    }
+    .ai-error-title { font-size:0.78rem; font-weight:600; color:var(--rose); margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+    .ai-error-text { font-size:0.82rem; color:var(--muted); line-height:1.6; margin-bottom:14px; }
+    .ai-retry-btn {
+      background:transparent; border:1px solid var(--border2); color:var(--text);
+      padding:8px 16px; border-radius:8px; font-size:0.78rem; font-weight:500;
+      font-family:'Inter',sans-serif; cursor:pointer; transition:all 0.2s ease; display:inline-flex; align-items:center; gap:6px;
+    }
+    .ai-retry-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+    /* Empty state */
+    .ai-empty { padding:8px 0; text-align:center; }
+    .ai-empty-text { font-size:0.85rem; color:var(--muted); font-weight:300; }
+    .ai-empty-text strong { color:var(--text); font-weight:500; }
+
+    @media(max-width:768px) { .ai-grid { grid-template-columns:1fr; } }
+
+    @media(max-width:480px) { #main-grid { grid-template-columns:1fr; } }
+  </style>
 </head>
 <body>
 
@@ -551,9 +697,32 @@
     <!-- ═══════════════════════════════════════════════════════
          AI PERFORMANCE ANALYSIS (Grok-powered)
     ════════════════════════════════════════════════════════ -->
-  
+    <div id="ai-panel">
+      <div class="panel" style="padding:28px 30px;">
 
-      
+        <!-- Header -->
+        <div class="ai-header">
+          <div class="ai-header-left">
+            <div class="ai-spark">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L9.5 8.5 3 11l6.5 2.5L12 21l2.5-7.5L21 11l-6.5-2.5L12 2z"/></svg>
+            </div>
+            <div class="ai-title-block">
+              <div class="ai-eyebrow"><span class="dot"></span> AI PERFORMANCE ANALYSIS</div>
+              <div class="ai-h2">How you actually did</div>
+            </div>
+          </div>
+          <div id="ai-grade-pill-display"></div>
+        </div>
+
+        <!-- Dynamic content area -->
+        <div id="ai-body"></div>
+
+        <div class="ai-credits" id="ai-credits" style="display:none;">
+          <span class="ai-credits-dot"></span> analysed by grok · powered by your secret key
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- History drawer -->
@@ -738,7 +907,7 @@ function enterReview() {
   currentAccuracyPct=runAccuracy();
 
   // Trigger AI analysis
-  //runAiAnalysis(src.value, brt.value);
+  runAiAnalysis(src.value, brt.value);
 
   setTimeout(()=>document.getElementById('reflection-modal').classList.add('open'),800);
   showToast(bw===0?"Keep practicing! 💪":`Nice — ${bw} words recalled 🧠`);
@@ -824,7 +993,236 @@ function runAccuracy() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+// AI PERFORMANCE ANALYSIS  —  Grok-powered feedback
+// ═══════════════════════════════════════════════════════════════════════════
 
+const AI_BODY     = () => document.getElementById('ai-body');
+const AI_PANEL    = () => document.getElementById('ai-panel');
+const AI_CREDITS  = () => document.getElementById('ai-credits');
+const AI_GRADE    = () => document.getElementById('ai-grade-pill-display');
+let aiInflight = false; // guard against double-fires mid-session
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function aiRenderSkeleton() {
+  AI_GRADE().innerHTML = `<div style="display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:12px;background:var(--surface2);border:1px solid var(--border);"><span class="spinner" style="border-color:rgba(255,255,255,0.12);border-top-color:var(--accent);"></span><span style="font-size:0.75rem;font-family:'Roboto Mono',monospace;color:var(--muted);letter-spacing:0.06em;">ANALYSING</span></div>`;
+  AI_BODY().innerHTML = `
+    <div class="ai-skel-section">
+      <div class="ai-skel-head"><div class="ai-skel-head-dot"></div><div class="ai-skel-head-line"></div></div>
+      <div class="ai-skel-block">
+        <div class="ai-skel-line"></div>
+        <div class="ai-skel-line mid"></div>
+        <div class="ai-skel-line short"></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div class="ai-skel-section">
+        <div class="ai-skel-head"><div class="ai-skel-head-dot"></div><div class="ai-skel-head-line" style="width:90px;"></div></div>
+        <div class="ai-skel-block"><div class="ai-skel-line"></div><div class="ai-skel-line short"></div></div>
+      </div>
+      <div class="ai-skel-section">
+        <div class="ai-skel-head"><div class="ai-skel-head-dot"></div><div class="ai-skel-head-line" style="width:80px;"></div></div>
+        <div class="ai-skel-block"><div class="ai-skel-line"></div><div class="ai-skel-line mid"></div></div>
+      </div>
+    </div>`;
+}
+
+function aiRenderResult(data) {
+  // Grade pill
+  const grade = data.grade || 'B';
+  AI_GRADE().innerHTML = `<div class="ai-grade-pill"><span class="ai-grade-letter">${escHtml(grade)}</span><span class="ai-grade-label">grade</span></div>`;
+
+  const summary = data.summary ? `<div class="ai-summary">${escHtml(data.summary)}</div>` : '';
+
+  // Nailed
+  const nailed = Array.isArray(data.nailed) ? data.nailed : [];
+  const nailedHtml = nailed.length ? `
+    <div class="ai-section" data-kind="nailed">
+      <div class="ai-section-head">
+        <div class="ai-section-dot"></div>
+        <div class="ai-section-title">What you nailed</div>
+        <div class="ai-section-count">${nailed.length}</div>
+      </div>
+      <div class="ai-list">
+        ${nailed.map(item => `
+          <div class="ai-item">
+            <div class="ai-bullet">✓</div>
+            <div class="ai-item-body">
+              <div class="ai-concept">${escHtml(item.concept || '')}</div>
+              <div class="ai-note">${escHtml(item.note || '')}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  ` : '';
+
+  // Gaps
+  const gaps = Array.isArray(data.gaps) ? data.gaps : [];
+  const gapsHtml = gaps.length ? `
+    <div class="ai-section" data-kind="gaps">
+      <div class="ai-section-head">
+        <div class="ai-section-dot"></div>
+        <div class="ai-section-title">What to work on</div>
+        <div class="ai-section-count">${gaps.length}</div>
+      </div>
+      <div class="ai-list">
+        ${gaps.map(item => `
+          <div class="ai-item">
+            <div class="ai-bullet">!</div>
+            <div class="ai-item-body">
+              <div class="ai-concept">${escHtml(item.concept || '')}</div>
+              <div class="ai-note">${escHtml(item.note || '')}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  ` : '';
+
+  // Tip
+  const tip = data.tip ? `
+    <div class="ai-tip-wrap">
+      <div class="ai-tip-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.5.4.9 1 1 1.6V18h6v-1.7c.1-.7.5-1.3 1-1.7A7 7 0 0 0 12 2z"/></svg>
+      </div>
+      <div class="ai-tip-body">
+        <div class="ai-tip-eyebrow">For your next attempt</div>
+        <div class="ai-tip-text">${escHtml(data.tip)}</div>
+      </div>
+    </div>
+  ` : '';
+
+  const emptyFallback = (!nailed.length && !gaps.length && !data.tip) ? `
+    <div class="ai-empty"><div class="ai-empty-text">The AI didn't return any feedback — try a longer source or more detailed blurt.</div></div>
+  ` : '';
+
+  AI_BODY().innerHTML = `${summary}<div class="ai-grid">${nailedHtml}${gapsHtml}</div>${tip}${emptyFallback}`;
+  AI_CREDITS().style.display = 'flex';
+}
+
+function aiRenderError(msg) {
+  AI_GRADE().innerHTML = '';
+  AI_BODY().innerHTML = `
+    <div class="ai-error">
+      <div class="ai-error-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Analysis unavailable
+      </div>
+      <div class="ai-error-text">${escHtml(msg || 'The AI service couldn\'t be reached right now. Your keyword scores still show what you captured.')}</div>
+      <button class="ai-retry-btn" onclick="retryAi()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+        Try again
+      </button>
+    </div>`;
+}
+
+function aiRenderEmpty() {
+  AI_GRADE().innerHTML = '';
+  AI_BODY().innerHTML = `
+    <div class="ai-empty">
+      <div class="ai-empty-text">Add both source notes <strong>and</strong> a recall attempt, then end the session — the AI will weigh in.</div>
+    </div>`;
+}
+
+let lastAiSource = '', lastAiBlurt = '';
+async function runAiAnalysis(sourceText, blurtText) {
+  if (aiInflight) return;
+  aiInflight = true;
+  lastAiSource = sourceText; lastAiBlurt = blurtText;
+
+  const source = (sourceText || '').trim();
+  const blurt  = (blurtText  || '').trim();
+
+  AI_PANEL().classList.add('visible');
+
+  if (!source || !blurt) {
+    aiRenderEmpty();
+    aiInflight = false;
+    return;
+  }
+
+  aiRenderSkeleton();
+
+  // Build the prompt. We truncate aggressively so large paste sessions still fit.
+  const truncatedSource = source.length > 3500 ? source.slice(0, 3500) + '…' : source;
+  const truncatedBlurt  = blurt.length  > 3500 ? blurt.slice(0, 3500)  + '…' : blurt;
+
+  const systemPrompt = `You are a precise study coach. You compare a learner's source material to what they managed to recall from memory, and you return concrete, specific feedback. Be honest and detailed. Never praise vaguely — name the actual concepts. Never give generic study advice ("review more", "study harder") — every tip must refer to the specific missed content in this session.`;
+
+  const userPrompt = `Analyse this blurting session. Identify what the learner recalled well, what they missed or got wrong, and give one specific actionable tip tied directly to the missed material.
+
+SOURCE MATERIAL (study notes):
+"""
+${truncatedSource}
+"""
+
+BLURT (what the learner recalled from memory):
+"""
+${truncatedBlurt}
+"""
+
+Return ONLY a JSON object with this exact structure — no extra prose, no markdown fences:
+
+{
+  "grade": "A+" | "A" | "B+" | "B" | "C+" | "C" | "D" | "F",
+  "summary": "<one sentence: overall assessment of how well they recalled this material>",
+  "nailed": [
+    { "concept": "<specific concept from the source>", "note": "<one sentence describing exactly what was correctly recalled>" }
+  ],
+  "gaps": [
+    { "concept": "<specific concept or detail that was missed>", "note": "<one sentence: what was wrong, missing, or partially right>" }
+  ],
+  "tip": "<1-2 sentences: a specific mnemonic, anchor, or concrete strategy that would help the learner remember the missed concepts. Must reference the actual content they missed.>"
+}
+
+Identify 2-5 nailed concepts and 1-4 gaps. Be specific and honest.`;
+
+  try {
+    const response = await fetch('https://api.x.ai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.GROK_API_KEY_123}`
+      },
+      body: JSON.stringify({
+        model: 'grok-2-latest',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        temperature: 0.4,
+        response_format: { type: 'json_object' }
+      })
+    });
+
+    if (!response.ok) {
+      const errTxt = await response.text().catch(() => '');
+      throw new Error(`HTTP ${response.status}${errTxt ? ' — ' + errTxt.slice(0, 140) : ''}`);
+    }
+
+    const payload = await response.json();
+    const raw = payload?.choices?.[0]?.message?.content || '';
+    let parsed;
+    try { parsed = JSON.parse(raw); }
+    catch { throw new Error('The AI returned an unparseable response.'); }
+
+    aiRenderResult(parsed);
+    runAccuracy(); // re-trigger accuracy now that we know everything is settled
+  } catch (err) {
+    console.error('[Blurt AI]', err);
+    aiRenderError(err.message || String(err));
+  } finally {
+    aiInflight = false;
+  }
+}
+
+async function retryAi() {
+  if (aiInflight) return;
+  await runAiAnalysis(lastAiSource, lastAiBlurt);
+}
 
 // ─── Reflection modal ──────────────────────────────────────────────────────
 function skipReflection() { document.getElementById('reflection-modal').classList.remove('open'); }
