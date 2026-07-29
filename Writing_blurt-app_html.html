@@ -737,7 +737,7 @@ function enterReview() {
   currentAccuracyPct=runAccuracy();
 
   // Trigger AI analysis
-  runAiAnalysis(src.value, brt.value);
+  //runAiAnalysis(src.value, brt.value);
 
   setTimeout(()=>document.getElementById('reflection-modal').classList.add('open'),800);
   showToast(bw===0?"Keep practicing! 💪":`Nice — ${bw} words recalled 🧠`);
